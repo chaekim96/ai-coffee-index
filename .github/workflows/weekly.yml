@@ -1,0 +1,69 @@
+name: Weekly run
+
+on:
+  schedule:
+    - cron: "23 17 * * 1"   # Mondays, 17:23 UTC (morning in California)
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Questions per city (blank = all 10). Use 1 for a cheap test run."
+        required: false
+      build_only:
+        description: "Only rebuild the page from saved data (no API calls)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: weekly-run
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q
+
+      - name: Ask the assistants
+        if: ${{ !inputs.build_only }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+        run: python -m tracker.run ${{ inputs.limit && format('--limit {0}', inputs.limit) || '' }}
+
+      - name: Build the page
+        run: python -m tracker.build_site
+
+      - name: Save the data
+        if: ${{ !inputs.build_only }}
+        run: |
+          git config user.name "ai-coffee-index bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "Weekly run $(date -u +%F)"
+          git push
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: run
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

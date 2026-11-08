@@ -1,0 +1,41 @@
+{
+  "_help": "The questions asked every run. Each city key must match a city in favorites.json. Change wording sparingly: week-over-week trends only compare runs that asked the same questions.",
+  "cities": {
+    "Berkeley/Oakland": [
+      "What's the best coffee shop in Berkeley, CA?",
+      "Where should I get coffee in Oakland?",
+      "What's a good coffee shop to study at near UC Berkeley?",
+      "Where can I get the best espresso in Berkeley?",
+      "Best pour-over coffee in Oakland?",
+      "Which Berkeley coffee shops have the best pastries?",
+      "What are the best coffee roasters in the East Bay?",
+      "Where do locals get coffee in Rockridge, Oakland?",
+      "What's the best coffee shop to work from in Oakland?",
+      "Where can I get the best latte in Berkeley?"
+    ],
+    "San Francisco": [
+      "What's the best coffee shop in San Francisco?",
+      "Where should I get coffee in the Mission District, San Francisco?",
+      "What's the best specialty coffee roaster in San Francisco?",
+      "Where can I get the best espresso in San Francisco?",
+      "Best pour-over coffee in San Francisco?",
+      "What's a good coffee shop to work from in San Francisco?",
+      "Where do locals get coffee in Hayes Valley, San Francisco?",
+      "Which San Francisco coffee shops are worth a special trip?",
+      "Where can I get the best cortado in San Francisco?",
+      "What's the best coffee shop near the Ferry Building in San Francisco?"
+    ],
+    "New York": [
+      "What's the best coffee shop in New York City?",
+      "Where should I get coffee in the West Village, NYC?",
+      "What's the best specialty coffee roaster in New York?",
+      "Where can I get the best espresso in Manhattan?",
+      "Best pour-over coffee in Brooklyn?",
+      "What's a good coffee shop to work from in Manhattan?",
+      "Where do locals get coffee in Williamsburg, Brooklyn?",
+      "Which NYC coffee shops are worth a special trip?",
+      "Where can I get good coffee near Midtown Manhattan?",
+      "Where can I get the best latte in New York City?"
+    ]
+  }
+}
